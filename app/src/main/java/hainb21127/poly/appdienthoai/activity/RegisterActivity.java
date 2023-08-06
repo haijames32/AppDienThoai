@@ -1,66 +1,61 @@
-package hainb21127.poly.appdienthoai.sign;
+package hainb21127.poly.appdienthoai.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONObject;
-
-import hainb21127.poly.appdienthoai.API_URL;
-import hainb21127.poly.appdienthoai.MainActivity;
 import hainb21127.poly.appdienthoai.R;
-import hainb21127.poly.appdienthoai.inter.ServiceSignin;
+import hainb21127.poly.appdienthoai.inter.RequestService;
+import hainb21127.poly.appdienthoai.inter.RetrofitClient;
+import hainb21127.poly.appdienthoai.model.BaseResponseSignUp;
 import hainb21127.poly.appdienthoai.model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
     TextView tv;
-    EditText edFullname,edUsername,edPasswd,edPhone,edEmail;
+    EditText edFullname,edUsername,edPasswd,edPhone,edEmail, edRePasswd;
+    ImageView imgBack;
     Button btnRegister;
     Retrofit retrofit;
-    ServiceSignin serviceSignin;
+    private RequestService serviceRegister;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
         edUsername = findViewById(R.id.edUsername);
         edFullname = findViewById(R.id.edFullname);
         edPhone = findViewById(R.id.edPhone);
         edEmail = findViewById(R.id.edEmail);
         edPasswd = findViewById(R.id.edPasswd);
+        edRePasswd = findViewById(R.id.edRePasswd);
         btnRegister = findViewById(R.id.btnRegister);
         tv = findViewById(R.id.tvSignin);
+        imgBack = findViewById(R.id.btnBack_register);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(API_URL.POST_SIGN)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        serviceSignin = retrofit.create(ServiceSignin.class);
+        serviceRegister = RetrofitClient.getService().create(RequestService.class);
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegisterActivity.this, SigninActivity.class);
-                startActivity(intent);
+                onBackPressed();
+            }
+        });
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 
@@ -72,30 +67,40 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = edEmail.getText().toString();
                 int phone = Integer.parseInt(edPhone.getText().toString());
                 String passwd = edPasswd.getText().toString();
+                if(full.isEmpty() || username.isEmpty() || email.isEmpty() || Integer.valueOf(phone) == null || passwd.isEmpty()){
+                    Toast.makeText(RegisterActivity.this, "Chưa nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!edRePasswd.getText().toString().equals(passwd)){
+                    Toast.makeText(RegisterActivity.this, "Mật khẩu chưa trùng", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 User user = new User();
                 user.setFullname(full);
                 user.setUsername(username);
                 user.setEmail(email);
                 user.setPhone(phone);
                 user.setPasswd(passwd);
-                Call<User> call = serviceSignin.registerUser(user);
-                call.enqueue(new Callback<User>() {
+                Call<BaseResponseSignUp> call = serviceRegister.registerUser(user);
+                call.enqueue(new Callback<BaseResponseSignUp>() {
                     @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
-                        if(response.isSuccessful()){
+                    public void onResponse(Call<BaseResponseSignUp> call, Response<BaseResponseSignUp> response) {
+                        if(response.body().getStatus() == 200){
                             edUsername.setText("");
                             edFullname.setText("");
                             edEmail.setText("");
                             edPhone.setText("");
                             edPasswd.setText("");
-                            Toast.makeText(RegisterActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegisterActivity.this, SigninActivity.class);
-                            startActivity(intent);
+                            Toast.makeText(RegisterActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+//                            finish();
+                        }else {
+                            Toast.makeText(RegisterActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<User> call, Throwable t) {
+                    public void onFailure(Call<BaseResponseSignUp> call, Throwable t) {
                         Toast.makeText(RegisterActivity.this, "Đăng ký không thành công", Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -1,8 +1,11 @@
 package hainb21127.poly.appdienthoai.model;
 
-public class UserLogin {
+public class BaseRequestSignin {
     private String username;
     private String passwd;
+
+    public BaseRequestSignin() {
+    }
 
     public String getUsername() {
         return username;

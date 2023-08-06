@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ProductDetail">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <ImageView
+            android:id="@+id/imgSp_detailSp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher_background"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="30dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/btnBack_detailSp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_back"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="290dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTrangthaiSp_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Còn hàng"
+                android:textColor="#F44336"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/tvTenSp_detailSp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:text="Iphone 14 Pro Max"
+                android:textStyle="bold"
+                android:textSize="25dp"/>
+
+            <TextView
+                android:id="@+id/tvGiaSp_detailSp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="14.000.000đ"
+                android:textStyle="bold"
+                android:textColor="#F44336"
+                android:textSize="20dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
+                android:text="Mô tả sản phẩm"/>
+            <TextView
+                android:id="@+id/tvMotaSp_detailSp"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="Sản phẩm này không phải là thuốc, không thể thay thế thuốc chữa bệnh"/>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:padding="8dp"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnDatHang"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:backgroundTint="#ffbd59"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:text="Đặt hàng"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

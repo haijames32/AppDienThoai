@@ -6,10 +6,6 @@
         android:title=""
         android:icon="@drawable/ic_store"/>
     <item
-        android:id="@+id/nav_category"
-        android:title=""
-        android:icon="@drawable/iphone"/>
-    <item
         android:id="@+id/nav_order"
         android:title=""
         android:icon="@drawable/ic_order"/>

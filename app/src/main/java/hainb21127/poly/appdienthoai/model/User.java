@@ -1,13 +1,29 @@
 package hainb21127.poly.appdienthoai.model;
 
 public class User {
+    private String _id;
     private String fullname;
     private String username;
     private String email;
     private int phone;
     private String passwd;
+    private String msg;
 
     public User() {
+    }
+
+    public User(String fullname, String email, int phone) {
+        this.fullname = fullname;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getFullname() {
@@ -48,5 +64,13 @@ public class User {
 
     public void setPasswd(String passwd) {
         this.passwd = passwd;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }
